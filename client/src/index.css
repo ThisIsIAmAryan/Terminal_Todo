@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 4%);
+  --foreground: hsl(120, 100%, 50%);
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 40%);
+  --popover: hsl(0, 0%, 10%);
+  --popover-foreground: hsl(120, 100%, 50%);
+  --card: hsl(0, 0%, 10%);
+  --card-foreground: hsl(120, 100%, 50%);
+  --border: hsl(0, 0%, 20%);
+  --input: hsl(0, 0%, 20%);
+  --primary: hsl(180, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(60, 100%, 50%);
+  --secondary-foreground: hsl(0, 0%, 0%);
+  --accent: hsl(300, 100%, 50%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 100%, 50%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(120, 100%, 50%);
+  --radius: 0.5rem;
+  
+  /* Terminal-specific colors */
+  --matrix-green: hsl(120, 100%, 50%);
+  --cyber-cyan: hsl(180, 100%, 50%);
+  --terminal-bg: hsl(0, 0%, 4%);
+  --terminal-surface: hsl(0, 0%, 10%);
+  --terminal-border: hsl(0, 0%, 20%);
+  --warning-yellow: hsl(60, 100%, 50%);
+  --error-red: hsl(0, 100%, 50%);
+  --muted-gray: hsl(0, 0%, 40%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 4%);
+  --foreground: hsl(120, 100%, 50%);
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 40%);
+  --popover: hsl(0, 0%, 10%);
+  --popover-foreground: hsl(120, 100%, 50%);
+  --card: hsl(0, 0%, 10%);
+  --card-foreground: hsl(120, 100%, 50%);
+  --border: hsl(0, 0%, 20%);
+  --input: hsl(0, 0%, 20%);
+  --primary: hsl(180, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(60, 100%, 50%);
+  --secondary-foreground: hsl(0, 0%, 0%);
+  --accent: hsl(300, 100%, 50%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 100%, 50%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(120, 100%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-mono antialiased bg-background text-foreground overflow-hidden;
+    font-family: 'Courier New', Monaco, Consolas, monospace;
+  }
+}
+
+@layer utilities {
+  /* Terminal styling utilities */
+  .terminal-border {
+    border: 1px solid var(--terminal-border);
+    box-shadow: 
+      inset 0 0 0 1px rgba(0, 255, 0, 0.2),
+      0 0 10px rgba(0, 255, 0, 0.1);
+  }
+  
+  .matrix-bg {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+    background-size: 100px 100px;
+    animation: matrix 20s infinite linear;
+  }
+  
+  .scanlines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.03) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  
+  .task-card {
+    transition: all 0.3s ease;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+  }
+  
+  .priority-high { 
+    border-left: 3px solid var(--error-red); 
+  }
+  
+  .priority-medium { 
+    border-left: 3px solid var(--warning-yellow); 
+  }
+  
+  .priority-low { 
+    border-left: 3px solid var(--matrix-green); 
+  }
+  
+  .category-work { 
+    color: var(--cyber-cyan); 
+  }
+  
+  .category-personal { 
+    color: var(--accent); 
+  }
+  
+  .category-health { 
+    color: var(--matrix-green); 
+  }
+  
+  .category-learning { 
+    color: var(--warning-yellow); 
+  }
+  
+  .text-matrix-green {
+    color: var(--matrix-green);
+  }
+  
+  .text-cyber-cyan {
+    color: var(--cyber-cyan);
+  }
+  
+  .text-terminal-bg {
+    color: var(--terminal-bg);
+  }
+  
+  .text-terminal-surface {
+    color: var(--terminal-surface);
+  }
+  
+  .text-terminal-border {
+    color: var(--terminal-border);
+  }
+  
+  .text-warning-yellow {
+    color: var(--warning-yellow);
+  }
+  
+  .text-error-red {
+    color: var(--error-red);
+  }
+  
+  .text-muted-gray {
+    color: var(--muted-gray);
+  }
+  
+  .bg-terminal-bg {
+    background-color: var(--terminal-bg);
+  }
+  
+  .bg-terminal-surface {
+    background-color: var(--terminal-surface);
+  }
+  
+  .bg-terminal-border {
+    background-color: var(--terminal-border);
+  }
+  
+  .border-terminal-border {
+    border-color: var(--terminal-border);
+  }
+  
+  .animate-cursor {
+    animation: cursor 1s infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-track-terminal-bg {
+    scrollbar-color: var(--terminal-border) var(--terminal-bg);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--terminal-bg);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--terminal-border);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: var(--matrix-green);
+  }
+}
+
+@keyframes cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes matrix {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+@keyframes glow {
+  from { 
+    text-shadow: 0 0 5px var(--matrix-green), 0 0 10px var(--matrix-green), 0 0 15px var(--matrix-green); 
+  }
+  to { 
+    text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-green); 
+  }
+}
