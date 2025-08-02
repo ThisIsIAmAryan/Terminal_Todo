@@ -55,75 +55,49 @@ export default function QuickActions() {
   };
 
   return (
-    <div className="flex flex-col gap-4 h-full">
+    <div className="flex flex-col h-full">
       {/* Quick Actions */}
-      <div className="terminal-border bg-terminal-surface p-4 rounded">
-        <h2 className="text-cyber-cyan mb-3 text-sm font-bold">╔═══ QUICK ACTIONS ═══╗</h2>
-        <div className="space-y-2 text-xs">
+      <div className="terminal-border bg-terminal-surface p-3 rounded mb-3">
+        <h2 className="text-cyber-cyan mb-2 text-xs font-bold">╔═══ QUICK ACTIONS ═══╗</h2>
+        <div className="space-y-1 text-xs">
           <button 
             onClick={focusCommandInput}
-            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-2 hover:bg-terminal-border rounded transition-colors"
+            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-1 hover:bg-terminal-border rounded transition-colors"
           >
             &gt; ADD_TASK --priority=high
           </button>
           <button 
             onClick={showTodayTasks}
-            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-2 hover:bg-terminal-border rounded transition-colors"
+            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-1 hover:bg-terminal-border rounded transition-colors"
           >
             &gt; LIST_TASKS --filter=today
           </button>
           <button 
             onClick={showStats}
-            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-2 hover:bg-terminal-border rounded transition-colors"
+            className="w-full text-left text-matrix-green hover:text-cyber-cyan p-1 hover:bg-terminal-border rounded transition-colors"
           >
             &gt; SHOW_STATS --period=week
           </button>
-          <button className="w-full text-left text-matrix-green hover:text-cyber-cyan p-2 hover:bg-terminal-border rounded transition-colors">
-            &gt; EXPORT_DATA --format=json
-          </button>
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="terminal-border bg-terminal-surface p-4 rounded">
-        <h2 className="text-cyber-cyan mb-3 text-sm font-bold">╔═══ CATEGORIES ═══╗</h2>
-        <div className="space-y-2 text-xs">
-          <div className="flex justify-between items-center p-2 hover:bg-terminal-border rounded cursor-pointer transition-colors">
-            <span className="category-work">[WORK]</span>
-            <span className="text-muted-gray">{stats?.byCategory?.work || 0}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 hover:bg-terminal-border rounded cursor-pointer transition-colors">
-            <span className="category-personal">[PERSONAL]</span>
-            <span className="text-muted-gray">{stats?.byCategory?.personal || 0}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 hover:bg-terminal-border rounded cursor-pointer transition-colors">
-            <span className="category-health">[HEALTH]</span>
-            <span className="text-muted-gray">{stats?.byCategory?.health || 0}</span>
-          </div>
-          <div className="flex justify-between items-center p-2 hover:bg-terminal-border rounded cursor-pointer transition-colors">
-            <span className="category-learning">[LEARNING]</span>
-            <span className="text-muted-gray">{stats?.byCategory?.learning || 0}</span>
-          </div>
-        </div>
-      </div>
 
-      {/* System Info */}
-      <div className="terminal-border bg-terminal-surface p-4 rounded flex-1">
-        <h2 className="text-cyber-cyan mb-3 text-sm font-bold">╔═══ SYSTEM INFO ═══╗</h2>
-        <div className="space-y-2 text-xs text-muted-gray">
-          <div>UPTIME: <span className="text-matrix-green">{uptime}</span></div>
-          <div>TASKS PROCESSED: <span className="text-matrix-green">{stats?.total || 0}</span></div>
-          <div>COMPLETION RATE: <span className="text-matrix-green">{completionRate}%</span></div>
-          <div>LAST SYNC: <span className="text-matrix-green">LIVE</span></div>
-          <div className="mt-4">
-            <div className="text-cyber-cyan mb-1">MEMORY USAGE:</div>
-            <div className="bg-terminal-bg rounded p-1">
-              <div 
-                className="bg-matrix-green h-1 rounded transition-all duration-500" 
-                style={{ width: `${memoryUsage}%` }}
-              ></div>
-            </div>
-            <div className="text-right mt-1">{memoryUsage.toFixed(0)}% / 512MB</div>
+
+      {/* System Info - Now takes remaining space */}
+      <div className="terminal-border bg-terminal-surface p-3 rounded flex-1 min-h-0 flex flex-col">
+        <h2 className="text-cyber-cyan mb-2 text-xs font-bold flex-shrink-0">╔═══ SYSTEM INFO ═══╗</h2>
+        <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin">
+          <div className="space-y-1 text-xs text-muted-gray">
+            <div>UPTIME: <span className="text-matrix-green">{uptime}</span></div>
+            <div>TASKS PROCESSED: <span className="text-matrix-green">{stats?.total || 0}</span></div>
+            <div>COMPLETION RATE: <span className="text-matrix-green">{completionRate}%</span></div>
+            <div>LAST SYNC: <span className="text-matrix-green">LIVE</span></div>
+            <div>CONNECTION: <span className="text-matrix-green">SECURE</span></div>
+            <div>STATUS: <span className="text-matrix-green">OPERATIONAL</span></div>
+            <div>VERSION: <span className="text-matrix-green">v2.1.0</span></div>
+            <div>BUILD: <span className="text-matrix-green">20250801</span></div>
+            <div>THREADS: <span className="text-matrix-green">8</span></div>
+            <div>LOAD AVG: <span className="text-matrix-green">0.45</span></div>
           </div>
         </div>
       </div>

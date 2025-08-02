@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function TaskCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { tasks } = useTasks();
+  const { tasks, stats } = useTasks();
 
   const monthNames = [
     "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
@@ -93,11 +93,11 @@ export default function TaskCalendar() {
   const days = getDaysInMonth();
 
   return (
-    <div className="terminal-border bg-terminal-surface p-4 rounded h-full">
-      <h2 className="text-cyber-cyan mb-3 text-sm font-bold">╔═══ TASK CALENDAR ═══╗</h2>
+    <div className="terminal-border bg-terminal-surface p-4 rounded h-full flex flex-col">
+      <h2 className="text-cyber-cyan mb-3 text-sm font-bold flex-shrink-0">╔═══ TASK CALENDAR ═══╗</h2>
       
       {/* Calendar Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 flex-shrink-0">
         <button 
           onClick={() => navigateMonth('prev')}
           className="text-matrix-green hover:text-cyber-cyan text-xs flex items-center gap-1"
@@ -116,18 +116,19 @@ export default function TaskCalendar() {
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-1 text-xs mb-4">
-        {/* Week Headers */}
-        {dayNames.map(day => (
-          <div key={day} className="text-cyber-cyan text-center p-1 font-bold">
-            {day}
-          </div>
-        ))}
+      <div className="flex-1 min-h-0">
+        <div className="grid grid-cols-7 gap-1 text-xs mb-4">
+          {/* Week Headers */}
+          {dayNames.map(day => (
+            <div key={day} className="text-cyber-cyan text-center p-1 font-bold">
+              {day}
+            </div>
+          ))}
 
-        {/* Calendar Days */}
-        {days.map(({ day, date, isCurrentMonth, isToday }, index) => {
-          const taskCounts = getTaskCountForDate(date);
-          const hasHighPriority = taskCounts.high > 0;
+          {/* Calendar Days */}
+          {days.map(({ day, date, isCurrentMonth, isToday }, index) => {
+            const taskCounts = getTaskCountForDate(date);
+            const hasHighPriority = taskCounts.high > 0;
           const hasMediumPriority = taskCounts.medium > 0;
           const hasLowPriority = taskCounts.low > 0;
           const hasAnyTasks = hasHighPriority || hasMediumPriority || hasLowPriority;
@@ -165,7 +166,7 @@ export default function TaskCalendar() {
       </div>
 
       {/* Calendar Legend */}
-      <div className="text-xs">
+      <div className="text-xs flex-shrink-0">
         <div className="text-cyber-cyan mb-2">LEGEND:</div>
         <div className="flex gap-4">
           <div className="flex items-center gap-1">
@@ -181,6 +182,30 @@ export default function TaskCalendar() {
             <span className="text-muted-gray">LOW</span>
           </div>
         </div>
+      </div>
+
+      {/* Categories */}
+      <div className="mt-3 text-xs flex-shrink-0">
+        <div className="text-cyber-cyan mb-2">CATEGORIES:</div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex justify-between items-center p-1 hover:bg-terminal-border rounded cursor-pointer transition-colors">
+            <span className="category-work">[WORK]</span>
+            <span className="text-muted-gray">{stats?.byCategory?.work || 0}</span>
+          </div>
+          <div className="flex justify-between items-center p-1 hover:bg-terminal-border rounded cursor-pointer transition-colors">
+            <span className="category-personal">[PERSONAL]</span>
+            <span className="text-muted-gray">{stats?.byCategory?.personal || 0}</span>
+          </div>
+          <div className="flex justify-between items-center p-1 hover:bg-terminal-border rounded cursor-pointer transition-colors">
+            <span className="category-health">[HEALTH]</span>
+            <span className="text-muted-gray">{stats?.byCategory?.health || 0}</span>
+          </div>
+          <div className="flex justify-between items-center p-1 hover:bg-terminal-border rounded cursor-pointer transition-colors">
+            <span className="category-learning">[LEARNING]</span>
+            <span className="text-muted-gray">{stats?.byCategory?.learning || 0}</span>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   );

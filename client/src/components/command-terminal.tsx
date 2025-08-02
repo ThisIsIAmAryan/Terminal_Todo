@@ -11,7 +11,6 @@ interface CommandHistory {
 export default function CommandTerminal() {
   const [currentCommand, setCurrentCommand] = useState("");
   const [commandHistory, setCommandHistory] = useState<CommandHistory[]>([]);
-  const [showHelp, setShowHelp] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   
@@ -38,8 +37,26 @@ export default function CommandTerminal() {
     try {
       switch (parsedCommand.action) {
         case 'help':
-          setShowHelp(!showHelp);
-          result = { success: true, message: showHelp ? 'HELP PANEL HIDDEN' : 'SHOWING AVAILABLE COMMANDS' };
+          result = { 
+            success: true, 
+            message: `AVAILABLE COMMANDS:
+
+add-task "title" [options]
+  --priority=(high|medium|low)
+  --category=(work|personal|health|learning)  
+  --due=YYYY-MM-DD
+
+complete-task [id]    - Mark task as complete
+delete-task [id]      - Delete a task
+list-tasks [filter]   - List tasks (--filter=today|completed|pending)
+show-stats           - Display task statistics
+clear                - Clear command history
+help                 - Show this help
+
+EXAMPLES:
+add-task "Fix bug" --priority=high --category=work
+list-tasks --filter=today` 
+          };
           break;
 
         case 'clear':
@@ -167,8 +184,8 @@ export default function CommandTerminal() {
   };
 
   return (
-    <div className="terminal-border bg-terminal-surface p-4 rounded">
-      <div className="flex items-center gap-2 mb-2">
+    <div className="terminal-border bg-terminal-surface p-4 rounded h-full overflow-hidden flex flex-col">
+      <div className="flex items-center gap-2 mb-2 flex-shrink-0">
         <span className="text-muted-gray text-xs">[TASK_MANAGER@localhost]</span>
         <span className="text-cyber-cyan text-xs">~$</span>
         <input 
@@ -185,8 +202,8 @@ export default function CommandTerminal() {
       </div>
       
       {/* Command History */}
-      <div className="text-xs space-y-1 max-h-20 overflow-y-auto scrollbar-thin">
-        {commandHistory.slice(-4).map((entry, index) => (
+      <div className="text-xs space-y-1 max-h-16 overflow-y-auto scrollbar-thin flex-shrink-0 mb-2">
+        {commandHistory.slice(-3).map((entry, index) => (
           <div key={index}>
             <div className="text-muted-gray">
               <span className="text-cyber-cyan">[{entry.timestamp}]</span> &gt; {entry.command}
@@ -197,38 +214,6 @@ export default function CommandTerminal() {
           </div>
         ))}
       </div>
-
-      {/* Help Panel */}
-      {showHelp && (
-        <div className="mt-4 text-xs text-muted-gray border-t border-terminal-border pt-4">
-          <div className="text-cyber-cyan mb-2">AVAILABLE COMMANDS:</div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <div className="text-matrix-green">add-task "title" [options]</div>
-              <div className="ml-2">--priority=(high|medium|low)</div>
-              <div className="ml-2">--category=(work|personal|health|learning)</div>
-              <div className="ml-2">--due=YYYY-MM-DD</div>
-              <div className="ml-2">--description="text"</div>
-            </div>
-            <div className="space-y-1">
-              <div className="text-matrix-green">complete-task [id]</div>
-              <div className="text-matrix-green">delete-task [id]</div>
-              <div className="text-matrix-green">list-tasks [--filter=option]</div>
-              <div className="text-matrix-green">show-stats</div>
-              <div className="text-matrix-green">clear</div>
-              <div className="text-matrix-green">help</div>
-            </div>
-          </div>
-          <div className="mt-2 text-cyber-cyan">
-            EXAMPLES:
-          </div>
-          <div className="text-xs text-muted-gray ml-2">
-            add-task "Fix bug" --priority=high --category=work --due=2024-08-15
-            <br />
-            list-tasks --filter=today
-          </div>
-        </div>
-      )}
     </div>
   );
 }

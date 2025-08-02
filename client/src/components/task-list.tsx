@@ -60,7 +60,7 @@ export default function TaskList() {
   return (
     <div className="flex flex-col gap-4 h-full">
       {/* Task Stats */}
-      <div className="terminal-border bg-terminal-surface p-4 rounded">
+      <div className="terminal-border bg-terminal-surface p-4 rounded flex-shrink-0">
         <h2 className="text-cyber-cyan mb-3 text-sm font-bold">╔═══ TASK OVERVIEW ═══╗</h2>
         <div className="grid grid-cols-3 gap-4 text-xs">
           <div className="text-center">

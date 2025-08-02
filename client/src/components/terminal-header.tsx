@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useTasks } from "@/hooks/use-tasks";
 
 export default function TerminalHeader() {
   const [currentTime, setCurrentTime] = useState("");
+  const { stats } = useTasks();
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,6 +28,8 @@ export default function TerminalHeader() {
     return () => clearInterval(interval);
   }, []);
 
+  const memoryUsage = stats?.total ? Math.min((stats.total / 50) * 100, 100) : 0;
+
   return (
     <div className="terminal-border bg-terminal-surface p-4 rounded">
       <div className="flex items-center justify-between mb-2">
@@ -39,9 +43,23 @@ export default function TerminalHeader() {
           {currentTime}
         </div>
       </div>
-      <div className="text-xs">
-        <span className="text-muted-gray">[USER@PRODUCTIVITY-SYSTEM]</span>
-        <span className="text-matrix-green animate-glow ml-2">$ SYSTEM STATUS: ONLINE</span>
+      <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center gap-4">
+          <span className="text-muted-gray">[ThisIsIAmAryan@FOCUS-MODE]</span>
+          <span className="text-matrix-green animate-glow">$ SYSTEM STATUS: ONLINE</span>
+        </div>
+        <div className="flex items-center gap-6 text-muted-gray">
+          <div className="flex items-center gap-2">
+            <span className="text-cyber-cyan">MEM:</span>
+            <div className="w-12 bg-terminal-bg rounded h-1">
+              <div className="bg-matrix-green h-1 rounded transition-all duration-500" style={{ width: `${memoryUsage}%` }}></div>
+            </div>
+            <span className="text-matrix-green">{memoryUsage.toFixed(0)}%</span>
+          </div>
+          <div><span className="text-cyber-cyan">NET:</span> <span className="text-matrix-green">12ms</span></div>
+          <div><span className="text-cyber-cyan">DISK:</span> <span className="text-matrix-green">45%</span></div>
+          <div><span className="text-cyber-cyan">SEC:</span> <span className="text-matrix-green">ACTIVE</span></div>
+        </div>
       </div>
     </div>
   );
